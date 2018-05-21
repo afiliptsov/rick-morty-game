@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.quizOptions {
+  display: flex;
+  margin-left: 27vw;
+  margin-right: 27vw;
+  margin-top: 8vh;
+  height: 80vh;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.picture {
+  margin: 3vh;
+  height: 200px;
+  width: auto;
+  border-radius: 30%;
+  padding: 5px;
+  filter: drop-shadow(5px 5px 20px #5e5ec2);
+}
+.picture:hover {
+  filter: drop-shadow(5px 5px 30px green);
+}

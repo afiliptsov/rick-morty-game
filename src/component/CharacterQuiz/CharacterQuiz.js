@@ -10,6 +10,11 @@ const page2 = "character/?page=2";
 const page3 = "character/?page=3";
 const page4 = "character/?page=4";
 const page5 = "character/?page=5";
+const page6 = "character/?page=6";
+const page7 = "character/?page=7";
+const page8 = "character/?page=8";
+const page9 = "character/?page=9";
+const page10 = "character/?page=10";
 
 class CharacterQuiz extends Component {
   constructor() {
@@ -35,20 +40,43 @@ class CharacterQuiz extends Component {
         axios.get(baseRickUrl + page2),
         axios.get(baseRickUrl + page3),
         axios.get(baseRickUrl + page4),
-        axios.get(baseRickUrl + page5)
+        axios.get(baseRickUrl + page5),
+        axios.get(baseRickUrl + page6),
+        axios.get(baseRickUrl + page7),
+        axios.get(baseRickUrl + page8),
+        axios.get(baseRickUrl + page9),
+        axios.get(baseRickUrl + page10)
       ])
       .then(
-        axios.spread((page1, page2, page3, page4, page5) => {
-          this.setState({
-            charArr: [
-              ...page1.data.results,
-              ...page2.data.results,
-              ...page3.data.results,
-              ...page4.data.results,
-              ...page5.data.results
-            ]
-          });
-        })
+        axios.spread(
+          (
+            page1,
+            page2,
+            page3,
+            page4,
+            page5,
+            page6,
+            page7,
+            page8,
+            page9,
+            page10
+          ) => {
+            this.setState({
+              charArr: [
+                ...page1.data.results,
+                ...page2.data.results,
+                ...page3.data.results,
+                ...page4.data.results,
+                ...page5.data.results,
+                ...page6.data.results,
+                ...page7.data.results,
+                ...page8.data.results,
+                ...page9.data.results,
+                ...page10.data.results
+              ]
+            });
+          }
+        )
       );
   }
 

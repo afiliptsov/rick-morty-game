@@ -24,11 +24,13 @@ class CharacterQuiz extends Component {
       randomFour: [],
       randomImageName: "",
       score: 0,
-      storedResult: 0
+      storedResult: 0,
+      quizStarted: true
     };
     this.chooseRandomFour = this.chooseRandomFour.bind(this);
     this.chooseRandomImageName = this.chooseRandomImageName.bind(this);
     this.checkImageName = this.checkImageName.bind(this);
+    this.enableQuiz = this.enableQuiz.bind(this);
   }
 
   componentDidMount() {
@@ -78,6 +80,13 @@ class CharacterQuiz extends Component {
           }
         )
       );
+    //this.chooseRandomFour(this.chooseRandomImageName);
+  }
+
+  enableQuiz() {
+    return this.setState({
+      quizStarted: !this.state.quizStarted
+    });
   }
 
   chooseRandomFour(callback) {
@@ -137,18 +146,25 @@ class CharacterQuiz extends Component {
     });
 
     return (
-      <div>
-        {console.log(this.state.charArr)}
-        {console.log(this.state.randomFour)}
+      <div className="main-screen">
+        <div className="intro-center-buttons">
+          {console.log(this.state.charArr)}
+          {console.log(this.state.randomFour)}
+          {this.state.quizStarted ? (
+            <button
+              className="start-game-button"
+              onClick={() => this.chooseRandomFour(this.chooseRandomImageName)}
+            >
+              Next
+            </button>
+          ) : null}
+          <h1>
+            <p>Score: {this.state.score}</p>
 
-        <button
-          onClick={() => this.chooseRandomFour(this.chooseRandomImageName)}
-        >
-          Next
-        </button>
-        <p>Score: {this.state.score}</p>
-        <p>{this.state.randomImageName}</p>
-        <div className="quizOptions">{characterArray}</div>
+            <p>{this.state.randomImageName}</p>
+          </h1>
+          <div className="quizOptions">{characterArray}</div>
+        </div>
       </div>
     );
   }

@@ -30,7 +30,9 @@ class CharacterQuiz extends Component {
     this.chooseRandomFour = this.chooseRandomFour.bind(this);
     this.chooseRandomImageName = this.chooseRandomImageName.bind(this);
     this.checkImageName = this.checkImageName.bind(this);
-    this.enableQuiz = this.enableQuiz.bind(this);
+    this.cleanNonExistingCharacters = this.cleanNonExistingCharacters.bind(
+      this
+    );
   }
 
   componentDidMount() {
@@ -78,16 +80,24 @@ class CharacterQuiz extends Component {
                   ...page10.data.results
                 ]
               },
-              () => this.chooseRandomFour(this.chooseRandomImageName)
+              () => {
+                this.cleanNonExistingCharacters();
+                this.chooseRandomFour(this.chooseRandomImageName);
+              }
             );
           }
         )
       );
   }
 
-  enableQuiz() {
-    return this.setState({
-      quizStarted: !this.state.quizStarted
+  cleanNonExistingCharacters() {
+    const toDelete = [19, 66, 104, 189];
+    const newArray = this.state.charArr.filter(
+      obj => !toDelete.includes(obj.id)
+    );
+
+    this.setState({
+      charArr: newArray
     });
   }
 
@@ -137,7 +147,7 @@ class CharacterQuiz extends Component {
   render() {
     let characterArray = this.state.randomFour.map((element, i) => {
       return (
-        <div key={i}>
+        <div className="option-wrap" key={i}>
           <img
             className="pictures"
             onClick={() => this.checkImageName(element.name)}
@@ -148,11 +158,12 @@ class CharacterQuiz extends Component {
     });
 
     return (
-      <div className="main-screen-quiz">
-        <div className="intro-center-quiz">
-          {console.log(this.state.charArr)}
-          {console.log(this.state.randomFour)}
-          {/* this.state.quizStarted && (
+      <div className="padding">
+        <div className="main-screen-quiz">
+          <div className="intro-center-quiz">
+            {console.log(this.state.charArr)}
+            {console.log(this.state.randomFour)}
+            {/* this.state.quizStarted && (
             <button
               className="start-game-button"
               onClick={() => this.chooseRandomFour(this.chooseRandomImageName)}
@@ -160,12 +171,13 @@ class CharacterQuiz extends Component {
               Next
             </button>
           )*/}
-          <h1>
-            <p>Score: {this.state.score}</p>
+            <h1>
+              <p className="score">Score: {this.state.score}</p>
 
-            <p>{this.state.randomImageName}</p>
-          </h1>
-          <div className="quizOptions">{characterArray}</div>
+              <p className="name">{this.state.randomImageName}</p>
+            </h1>
+            <div className="quizOptions">{characterArray}</div>
+          </div>
         </div>
       </div>
     );

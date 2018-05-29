@@ -9,20 +9,20 @@ html {
 }
 body {
   font-family: "Lato", sans-serif;
-  padding: 30px;
   color: #777;
 }
-
+.padding-start {
+  padding: 3vh;
+}
 .main-screen {
   border-radius: 4rem;
-  height: 95vh;
+  height: 94vh;
   background-image: linear-gradient(to right bottom, #0044ff5e, #aef3edc7),
     url("../../img/\ bg.png");
-  background-color: yellow;
   background-size: cover;
   background-position: top;
   position: relative;
-  clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
 }
 
 .intro-center-buttons {

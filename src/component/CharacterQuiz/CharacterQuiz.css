@@ -1,60 +1,36 @@
 * {
   margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 html {
   font-size: 10px;
   font-weight: 400;
 }
-body {
-  font-family: "Lato", sans-serif;
-  padding: 30px;
-  color: #777;
+.padding {
+  padding: 3vh;
 }
 
 .main-screen-quiz {
   border-radius: 4rem;
-  height: 95vh;
+  height: 94vh;
   background-image: linear-gradient(to right bottom, #0044ff5e, #aef3edc7),
     url("../../img/\ bg.png");
-  /* background-color: yellow; */
   background-size: cover;
   background-position: top;
   position: relative;
-  clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
 }
 
 .intro-center-quiz {
-  position: relative;
-  /* background-color: orange; */
-  width: 45vw;
-  height: 70vh;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  max-width: 70rem;
+  margin: 0 auto;
   text-align: center;
 }
 
-/* .quizOptions {
-  display: flex;
-  background-color: green;
-  margin-left: 27vw;
-  margin-right: 27vw;
-  margin-top: 8vh;
-  height: 80vh;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-} */
 .pictures {
-  /* background-color: green; */
-
   position: relative;
-  margin: 2vh;
-  height: 20rem;
-  width: auto;
+  max-width: 100%;
+  display: block;
   border-radius: 30%;
   filter: drop-shadow(5px 5px 20px #5e5ec2);
   animation: renderIcons 0.3s ease-out;
@@ -62,19 +38,23 @@ body {
 .pictures:hover {
   filter: drop-shadow(5px 5px 30px green);
 }
-
-.quizOptions {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  align-content: stretch;
+.option-wrap {
+  display: inline-block;
+  width: 30%;
+  margin: 5%;
 }
 
 h1 {
   color: white;
   text-shadow: 2px 2px black;
+}
+.score {
+  color: #ffcc33;
+  font-size: 2rem;
+}
+.name {
+  margin-top: 1vh;
+  font-size: 4rem;
 }
 
 @keyframes renderIcons {
@@ -86,7 +66,7 @@ h1 {
   }
 }
 
-@media (max-width: 1165px) {
+/* @media (max-width: 1165px) {
   .pictures {
     position: relative;
     margin: 2vh;
@@ -109,7 +89,6 @@ h1 {
   }
   .intro-center-quiz {
     position: relative;
-    /* background-color: orange; */
     width: 55vw;
     height: 70vh;
     top: 40%;
@@ -130,7 +109,6 @@ h1 {
   }
   .intro-center-quiz {
     position: relative;
-    /* background-color: orange; */
     width: 80vw;
     height: 70vh;
     top: 40%;
@@ -138,4 +116,4 @@ h1 {
     transform: translate(-50%, -50%);
     text-align: center;
   }
-}
+} */

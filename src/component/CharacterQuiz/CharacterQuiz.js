@@ -24,8 +24,7 @@ class CharacterQuiz extends Component {
       randomFour: [],
       randomImageName: "",
       score: 0,
-      storedResult: 0,
-      quizStarted: true
+      storedResult: 0
     };
     this.chooseRandomFour = this.chooseRandomFour.bind(this);
     this.chooseRandomImageName = this.chooseRandomImageName.bind(this);
@@ -33,6 +32,7 @@ class CharacterQuiz extends Component {
     this.cleanNonExistingCharacters = this.cleanNonExistingCharacters.bind(
       this
     );
+    this.addScoreResult = this.addScoreResult.bind(this);
   }
 
   componentDidMount() {
@@ -101,6 +101,18 @@ class CharacterQuiz extends Component {
     });
   }
 
+  addScoreResult() {
+    let scoreResult = {
+      name: "Test",
+      score: this.state.score
+    };
+    axios
+      .post("http://localhost:3001/api/score", scoreResult)
+      .then(response => {
+        console.log(response);
+      });
+  }
+
   chooseRandomFour(callback) {
     var i = 0;
     var tempArr = [];
@@ -126,6 +138,7 @@ class CharacterQuiz extends Component {
 
   checkImageName(name, callback) {
     let score = 0;
+
     if (name === this.state.randomImageName) {
       console.log("True");
       this.setState({
@@ -139,6 +152,12 @@ class CharacterQuiz extends Component {
         storedResult: this.state.score,
         score: 0
       });
+      {
+        console.log("STORED SCORE" + this.state.score);
+      }
+
+      // this.addScoreResult(); if uncomment It will make a PUSH call
+
       this.chooseRandomFour(this.chooseRandomImageName);
       console.log(this.state.score);
     }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import quizOptions from "./CharacterQuiz.css";
+import "./CharacterQuiz.css";
 import { HashRouter, Route, Switch, Link } from "react-router-dom";
 require("dotenv").config();
 
@@ -63,24 +63,26 @@ class CharacterQuiz extends Component {
             page9,
             page10
           ) => {
-            this.setState({
-              charArr: [
-                ...page1.data.results,
-                ...page2.data.results,
-                ...page3.data.results,
-                ...page4.data.results,
-                ...page5.data.results,
-                ...page6.data.results,
-                ...page7.data.results,
-                ...page8.data.results,
-                ...page9.data.results,
-                ...page10.data.results
-              ]
-            });
+            this.setState(
+              {
+                charArr: [
+                  ...page1.data.results,
+                  ...page2.data.results,
+                  ...page3.data.results,
+                  ...page4.data.results,
+                  ...page5.data.results,
+                  ...page6.data.results,
+                  ...page7.data.results,
+                  ...page8.data.results,
+                  ...page9.data.results,
+                  ...page10.data.results
+                ]
+              },
+              () => this.chooseRandomFour(this.chooseRandomImageName)
+            );
           }
         )
       );
-    //this.chooseRandomFour(this.chooseRandomImageName);
   }
 
   enableQuiz() {
@@ -137,7 +139,7 @@ class CharacterQuiz extends Component {
       return (
         <div key={i}>
           <img
-            className="picture"
+            className="pictures"
             onClick={() => this.checkImageName(element.name)}
             src={element.image}
           />
@@ -146,18 +148,18 @@ class CharacterQuiz extends Component {
     });
 
     return (
-      <div className="main-screen">
-        <div className="intro-center-buttons">
+      <div className="main-screen-quiz">
+        <div className="intro-center-quiz">
           {console.log(this.state.charArr)}
           {console.log(this.state.randomFour)}
-          {this.state.quizStarted ? (
+          {/* this.state.quizStarted && (
             <button
               className="start-game-button"
               onClick={() => this.chooseRandomFour(this.chooseRandomImageName)}
             >
               Next
             </button>
-          ) : null}
+          )*/}
           <h1>
             <p>Score: {this.state.score}</p>
 

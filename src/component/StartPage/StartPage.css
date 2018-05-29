@@ -18,6 +18,7 @@ body {
   height: 95vh;
   background-image: linear-gradient(to right bottom, #0044ff5e, #aef3edc7),
     url("../../img/\ bg.png");
+  background-color: yellow;
   background-size: cover;
   background-position: top;
   position: relative;

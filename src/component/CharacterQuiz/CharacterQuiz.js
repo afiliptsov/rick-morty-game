@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import "./CharacterQuiz.css";
 import { HashRouter, Route, Switch, Link } from "react-router-dom";
-require("dotenv").config();
 
-const baseRickUrl = process.env.REACT_APP_API_URL;
+const baseRickUrl = "https://rickandmortyapi.com/api/";
 const page1 = "character/?page=1";
 const page2 = "character/?page=2";
 const page3 = "character/?page=3";

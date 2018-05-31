@@ -1,30 +1,7 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-html {
-  font-size: 10px;
-  font-weight: 400;
-}
 body {
   font-family: "Lato", sans-serif;
   color: #777;
 }
-.padding-start {
-  padding: 3vh;
-}
-.main-screen {
-  border-radius: 4rem;
-  height: 94vh;
-  background-image: linear-gradient(to right bottom, #0044ff5e, #aef3edc7),
-    url("../../img/\ bg.png");
-  background-size: cover;
-  background-position: top;
-  position: relative;
-  clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
-}
-
 .intro-center-buttons {
   position: absolute;
   top: 70%;

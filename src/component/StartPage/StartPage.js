@@ -5,8 +5,8 @@ import { HashRouter, Route, Switch, Link } from "react-router-dom";
 class StartPage extends Component {
   render() {
     return (
-      <div className="padding-start">
-        <div className="main-screen">
+      <div className="padding">
+        <div className="main-screen-quiz">
           <div className="intro-center-buttons">
             <h1 className="intro-primary" />
             <Link to="/quiz">

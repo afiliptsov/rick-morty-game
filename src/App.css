@@ -7,3 +7,18 @@ html {
   font-size: 10px;
   font-weight: 400;
 }
+
+.main-screen-quiz {
+  border-radius: 4rem;
+  height: 94vh;
+  background-image: linear-gradient(to right bottom, #0044ff5e, #aef3edc7),
+    url("./img/bgv2.jpg");
+  background-size: cover;
+  background-position: top;
+  position: relative;
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+}
+
+.padding {
+  padding: 3vh;
+}

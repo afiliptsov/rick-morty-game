@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import "./CharacterQuiz.css";
 import { HashRouter, Route, Switch, Link } from "react-router-dom";
+import GameLost from "../GameLost/GameLost";
 
 const baseRickUrl = "https://rickandmortyapi.com/api/";
 const page1 = "character/?page=1";
@@ -23,7 +24,8 @@ class CharacterQuiz extends Component {
       randomFour: [],
       randomImageName: "",
       score: 0,
-      storedResult: 0
+      storedResult: 0,
+      gameEnded: false
     };
     this.chooseRandomFour = this.chooseRandomFour.bind(this);
     this.chooseRandomImageName = this.chooseRandomImageName.bind(this);
@@ -32,6 +34,7 @@ class CharacterQuiz extends Component {
       this
     );
     this.addScoreResult = this.addScoreResult.bind(this);
+    this.resetGame = this.resetGame.bind(this);
   }
 
   componentDidMount() {
@@ -87,6 +90,12 @@ class CharacterQuiz extends Component {
           }
         )
       );
+  }
+
+  resetGame() {
+    this.setState({
+      gameEnded: !this.state.gameEnded
+    });
   }
 
   cleanNonExistingCharacters() {
@@ -147,13 +156,12 @@ class CharacterQuiz extends Component {
       console.log(score);
     } else {
       console.log("Game Over");
+
       this.setState({
         storedResult: this.state.score,
-        score: 0
+        score: 0,
+        gameEnded: true
       });
-      {
-        console.log("STORED SCORE" + this.state.score);
-      }
 
       // this.addScoreResult(); if uncomment It will make a PUSH call
 
@@ -174,14 +182,22 @@ class CharacterQuiz extends Component {
         </div>
       );
     });
+    {
+      console.log("STORED SCORE" + this.state.storedResult);
+    }
 
-    return (
-      <div className="padding">
-        <div className="main-screen-quiz">
-          <div className="intro-center-quiz">
-            {console.log(this.state.charArr)}
-            {console.log(this.state.randomFour)}
-            {/* this.state.quizStarted && (
+    let gameLost = (
+      <GameLost
+        savedScore={this.state.storedResult}
+        resetGame={this.resetGame}
+      />
+    );
+
+    let introCenter = (
+      <div className="intro-center-quiz">
+        {console.log(this.state.charArr)}
+        {console.log(this.state.randomFour)}
+        {/* this.state.quizStarted && (
             <button
               className="start-game-button"
               onClick={() => this.chooseRandomFour(this.chooseRandomImageName)}
@@ -189,13 +205,18 @@ class CharacterQuiz extends Component {
               Next
             </button>
           )*/}
-            <h1>
-              <p className="score">Score: {this.state.score}</p>
+        <h1>
+          <p className="score">Score: {this.state.score}</p>
 
-              <p className="name">{this.state.randomImageName}</p>
-            </h1>
-            <div className="quizOptions">{characterArray}</div>
-          </div>
+          <p className="name">{this.state.randomImageName}</p>
+        </h1>
+        <div className="quizOptions">{characterArray}</div>
+      </div>
+    );
+    return (
+      <div className="padding">
+        <div className="main-screen-quiz">
+          {this.state.gameEnded ? gameLost : introCenter}
         </div>
       </div>
     );

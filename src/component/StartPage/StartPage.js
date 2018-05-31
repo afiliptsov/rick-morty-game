@@ -10,7 +10,7 @@ class StartPage extends Component {
           <div className="intro-center-buttons">
             <h1 className="intro-primary" />
             <Link to="/quiz">
-              <a href="#" class="btn btn-white btn-animated">
+              <a href="#" className="btn btn-white btn-animated">
                 Start
               </a>
             </Link>

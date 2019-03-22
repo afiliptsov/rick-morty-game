@@ -3,18 +3,21 @@ import axios from "axios";
 import "./CharacterQuiz.css";
 import { HashRouter, Route, Switch, Link } from "react-router-dom";
 import GameLost from "../GameLost/GameLost";
+import { connect } from "react-redux";
+// import * as actionTypes from "../../store/actionTypes";
+import { onIncrementScore, gameLost } from "../../store/actions/index";
 
-const baseRickUrl = "https://rickandmortyapi.com/api/";
-const page1 = "character/?page=1";
-const page2 = "character/?page=2";
-const page3 = "character/?page=3";
-const page4 = "character/?page=4";
-const page5 = "character/?page=5";
-const page6 = "character/?page=6";
-const page7 = "character/?page=7";
-const page8 = "character/?page=8";
-const page9 = "character/?page=9";
-const page10 = "character/?page=10";
+// const baseRickUrl = "https://rickandmortyapi.com/api/";
+// const page1 = "character/?page=1";
+// const page2 = "character/?page=2";
+// const page3 = "character/?page=3";
+// const page4 = "character/?page=4";
+// const page5 = "character/?page=5";
+// const page6 = "character/?page=6";
+// const page7 = "character/?page=7";
+// const page8 = "character/?page=8";
+// const page9 = "character/?page=9";
+// const page10 = "character/?page=10";
 
 class CharacterQuiz extends Component {
   constructor() {
@@ -23,8 +26,6 @@ class CharacterQuiz extends Component {
       charArr: [],
       randomFour: [],
       randomImageName: "",
-      score: 0,
-      storedResult: 0,
       gameEnded: false
     };
     this.chooseRandomFour = this.chooseRandomFour.bind(this);
@@ -33,63 +34,81 @@ class CharacterQuiz extends Component {
     this.cleanNonExistingCharacters = this.cleanNonExistingCharacters.bind(
       this
     );
-    this.addScoreResult = this.addScoreResult.bind(this);
     this.resetGame = this.resetGame.bind(this);
   }
 
   componentDidMount() {
     console.log("ComponentDiDMount!");
 
-    axios
-      .all([
-        axios.get(baseRickUrl + page1),
-        axios.get(baseRickUrl + page2),
-        axios.get(baseRickUrl + page3),
-        axios.get(baseRickUrl + page4),
-        axios.get(baseRickUrl + page5),
-        axios.get(baseRickUrl + page6),
-        axios.get(baseRickUrl + page7),
-        axios.get(baseRickUrl + page8),
-        axios.get(baseRickUrl + page9),
-        axios.get(baseRickUrl + page10)
-      ])
-      .then(
-        axios.spread(
-          (
-            page1,
-            page2,
-            page3,
-            page4,
-            page5,
-            page6,
-            page7,
-            page8,
-            page9,
-            page10
-          ) => {
-            this.setState(
-              {
-                charArr: [
-                  ...page1.data.results,
-                  ...page2.data.results,
-                  ...page3.data.results,
-                  ...page4.data.results,
-                  ...page5.data.results,
-                  ...page6.data.results,
-                  ...page7.data.results,
-                  ...page8.data.results,
-                  ...page9.data.results,
-                  ...page10.data.results
-                ]
-              },
-              () => {
-                this.cleanNonExistingCharacters();
-                this.chooseRandomFour(this.chooseRandomImageName);
-              }
-            );
-          }
-        )
+    axios.get("http://localhost:3001/api/characters").then(res => {
+      console.log("RESPONSE DATA", res.data);
+      this.setState(
+        {
+          charArr: res.data
+        },
+        () => {
+          this.state.charArr.map(element => {
+            console.log(element.name);
+          });
+          setTimeout(() => {
+            this.cleanNonExistingCharacters();
+            this.chooseRandomFour(this.chooseRandomImageName);
+          }, 5000);
+        }
       );
+      console.log(this.state.charArr);
+    });
+
+    // axios
+    //   .all([
+    //     axios.get(baseRickUrl + page1),
+    //     axios.get(baseRickUrl + page2),
+    //     axios.get(baseRickUrl + page3),
+    //     axios.get(baseRickUrl + page4),
+    //     axios.get(baseRickUrl + page5),
+    //     axios.get(baseRickUrl + page6),
+    //     axios.get(baseRickUrl + page7),
+    //     axios.get(baseRickUrl + page8),
+    //     axios.get(baseRickUrl + page9),
+    //     axios.get(baseRickUrl + page10)
+    //   ])
+    //   .then(
+    //     axios.spread(
+    //       (
+    //         page1,
+    //         page2,
+    //         page3,
+    //         page4,
+    //         page5,
+    //         page6,
+    //         page7,
+    //         page8,
+    //         page9,
+    //         page10
+    //       ) => {
+    //         this.setState(
+    //           {
+    //             charArr: [
+    //               ...page1.data.results,
+    //               ...page2.data.results,
+    //               ...page3.data.results,
+    //               ...page4.data.results,
+    //               ...page5.data.results,
+    //               ...page6.data.results,
+    //               ...page7.data.results,
+    //               ...page8.data.results,
+    //               ...page9.data.results,
+    //               ...page10.data.results
+    //             ]
+    //           },
+    //           () => {
+    // this.cleanNonExistingCharacters();
+    //             this.chooseRandomFour(this.chooseRandomImageName);
+    //           }
+    //         );
+    //       }
+    //     )
+    //   );
   }
 
   resetGame() {
@@ -108,19 +127,6 @@ class CharacterQuiz extends Component {
       charArr: newArray
     });
   }
-
-  addScoreResult() {
-    let scoreResult = {
-      name: "Test",
-      score: this.state.score
-    };
-    axios
-      .post("http://localhost:3001/api/score", scoreResult)
-      .then(response => {
-        console.log(response);
-      });
-  }
-
   chooseRandomFour(callback) {
     var i = 0;
     var tempArr = [];
@@ -145,28 +151,23 @@ class CharacterQuiz extends Component {
   }
 
   checkImageName(name, callback) {
-    let score = 0;
-
     if (name === this.state.randomImageName) {
       console.log("True");
-      this.setState({
-        score: this.state.score + 1
-      });
+      //Adding redux here
+      this.props.onIncrementScore();
+      // this.setState({
+      //   score: this.state.score + 1
+      // });
       this.chooseRandomFour(this.chooseRandomImageName);
-      console.log(score);
     } else {
       console.log("Game Over");
+      this.props.gameLost();
 
       this.setState({
-        storedResult: this.state.score,
-        score: 0,
         gameEnded: true
       });
 
-      // this.addScoreResult(); if uncomment It will make a PUSH call
-
       this.chooseRandomFour(this.chooseRandomImageName);
-      console.log(this.state.score);
     }
   }
 
@@ -182,31 +183,17 @@ class CharacterQuiz extends Component {
         </div>
       );
     });
-    {
-      console.log("STORED SCORE" + this.state.storedResult);
-    }
 
     let gameLost = (
-      <GameLost
-        savedScore={this.state.storedResult}
-        resetGame={this.resetGame}
-      />
+      <GameLost savedScore={this.props.storedScr} resetGame={this.resetGame} />
     );
 
     let introCenter = (
       <div className="intro-center-quiz">
         {console.log(this.state.charArr)}
         {console.log(this.state.randomFour)}
-        {/* this.state.quizStarted && (
-            <button
-              className="start-game-button"
-              onClick={() => this.chooseRandomFour(this.chooseRandomImageName)}
-            >
-              Next
-            </button>
-          )*/}
         <h1>
-          <p className="score">Score: {this.state.score}</p>
+          <p className="score">Score: {this.props.scr}</p>
 
           <p className="name">{this.state.randomImageName}</p>
         </h1>
@@ -218,9 +205,26 @@ class CharacterQuiz extends Component {
         <div className="main-screen-quiz">
           {this.state.gameEnded ? gameLost : introCenter}
         </div>
+        {console.log("MAP STATE TO PROPS SCORE", this.props)}
       </div>
     );
   }
 }
 
-export default CharacterQuiz;
+const mapStateToProps = state => {
+  return {
+    scr: state.scr.score,
+    storedScr: state.scr.storedScore
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    onIncrementScore: () => dispatch(onIncrementScore()),
+    gameLost: () => dispatch(gameLost())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CharacterQuiz);

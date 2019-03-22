@@ -1,13 +1,33 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./GameLost.css";
+import firebase from "firebase";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 
+firebase.initializeApp({
+  apiKey: "AIzaSyCRAxEvhLymg3rcQwhNVpsH-XUqhTqdDRE",
+  authDomain: "rick-morty-8c610.firebaseapp.com"
+});
 class GameLost extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: "",
-      dataArr: []
+      dataArr: [],
+      isSignedIn: false
+    };
+    this.uiConfig = {
+      signInFlow: "popup",
+      signInOptions: [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+        firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+        firebase.auth.GithubAuthProvider.PROVIDER_ID,
+        firebase.auth.EmailAuthProvider.PROVIDER_ID
+      ],
+      callbacks: {
+        signInSuccess: () => false
+      }
     };
     this.addScoreResult = this.addScoreResult.bind(this);
     this.getResults = this.getResults.bind(this);
@@ -16,6 +36,15 @@ class GameLost extends Component {
     this.setState({
       name: e.target.value
     });
+  }
+  componentDidMount() {
+    this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
+      this.setState({ isSignedIn: !!user }),
+        console.log("user Data from Firebase", user);
+    });
+  }
+  componentWillUnmount() {
+    this.unregisterAuthObserver();
   }
 
   getResults() {
@@ -42,18 +71,36 @@ class GameLost extends Component {
 
   render() {
     return (
-      <div>
-        <h1>You Lost!</h1>
-        <h1>Store your result</h1>
-        <input type="text" onChange={e => this.onNameChangeHandler(e)} />
-        <button onClick={this.getResults}>call data</button>
-        {console.log(this.state.dataArr)}
-        {console.log(this.state.name)}
+      <div className="game-lost">
+        <div className="result-score">
+          <h1>Game Over!</h1>
+          <br />
+          <br />
+          <h1>Lets save your Score!</h1>
+          <br />
+          <input type="text" onChange={e => this.onNameChangeHandler(e)} />
+          <button onClick={this.addScoreResult}>Store</button>
+          <br />
+          <button onClick={this.getResults}>call data</button>
+          {console.log(this.state.dataArr)}
+          {console.log(this.state.name)}
 
-        <button onClick={this.props.resetGame}>Dont Store</button>
-        <button onClick={this.addScoreResult}>Store</button>
-        {this.props.savedScore}
-        {console.log(this.state.score)}
+          <button onClick={this.props.resetGame}>New Game</button>
+
+          {this.state.isSignedIn ? (
+            <div>Signed in</div>
+          ) : (
+            <div>
+              <div>TEST</div>
+              <StyledFirebaseAuth
+                uiConfig={this.uiConfig}
+                firebaseAuth={firebase.auth()}
+              />
+            </div>
+          )}
+          {this.props.savedScore}
+          {console.log(this.state.score)}
+        </div>
       </div>
     );
   }

@@ -1,0 +1,3 @@
+export const INCREASE_SCORE = "INCREASE_SCORE";
+export const GAME_LOST = "GAME_LOST";
+export const GET_CHARACTERS = "GET_CHARACTERS";
